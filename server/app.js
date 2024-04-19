@@ -17,7 +17,7 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
 
-router.get('/',(res,req)=>{
+router.get('/',(req,res)=>{
     res.json("Hello World");
 })
 app.use('/auth', AuthRoutes);
