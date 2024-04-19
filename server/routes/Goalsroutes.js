@@ -1,7 +1,9 @@
 const express = require("express");
 const GoalsListModel = require("../models/GoalsListModel");
 const router = express.Router();
-
+router.get('/',(req,res)=>{
+  res.send("Hello World");
+})
 router.get("/getgoals", async (req, res) => {
   const { id } = req.query;
 

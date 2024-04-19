@@ -17,9 +17,7 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
 
-router.get('/',(req,res)=>{
-    res.send("Hello World");
-})
+
 app.use('/auth', AuthRoutes);
 app.use('/goals', GoalsRoutes);
 app.use('/marks', MarksRoutes);
