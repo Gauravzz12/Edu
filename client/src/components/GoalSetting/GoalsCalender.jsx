@@ -51,7 +51,7 @@ const MyCalendar = () => {
   useEffect(() => {
     const fetchGoals = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/goals/getgoals", {
+        const response = await axios.get("https://edu-track-dusky.vercel.app/goals/getgoals", {
           params: { id: sessionStorage.getItem("id") },
         });
         

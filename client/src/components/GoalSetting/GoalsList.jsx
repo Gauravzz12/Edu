@@ -117,7 +117,7 @@ function GoalsList() {
     const updatedData = params.data;
     try {
       const response = await axios.put(
-        `http://localhost:5000/goals/updateGoals/${updatedData._id}`,
+        `https://edu-track-dusky.vercel.app/goals/updateGoals/${updatedData._id}`,
         {
           goal: updatedData,
           id: sessionStorage.getItem("id"),
@@ -130,7 +130,7 @@ function GoalsList() {
 
   const handleRemove = async (data) => {
     try {
-      await axios.delete(`http://localhost:5000/goals/deleteGoals/`, {
+      await axios.delete(`https://edu-track-dusky.vercel.app/goals/deleteGoals/`, {
         params: { goalId: data._id, id: sessionStorage.getItem("id") },
       });
 
@@ -149,7 +149,7 @@ function GoalsList() {
 
   const fetchGoals = async () => {
     try {
-      const goal = await axios.get("http://localhost:5000/goals/getgoals", {
+      const goal = await axios.get("https://edu-track-dusky.vercel.app/goals/getgoals", {
         params: { id: sessionStorage.getItem("id") },
       });
       const updatedData = goal.data.map((goal) => ({
@@ -184,7 +184,7 @@ function GoalsList() {
       }
 
       const response = await axios.post(
-        `http://localhost:5000/goals/saveGoals`,
+        `https://edu-track-dusky.vercel.app/goals/saveGoals`,
         {
           goal: newGoal,
           id: sessionStorage.getItem("id"),

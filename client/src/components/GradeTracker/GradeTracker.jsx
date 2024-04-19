@@ -48,7 +48,7 @@ function GradeTracker() {
   const fetchGrades = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/marks/getGrades",
+        "https://edu-track-dusky.vercel.app/marks/getGrades",
         {
           params: {
             id: sessionStorage.getItem("id"),
@@ -56,7 +56,7 @@ function GradeTracker() {
         }
       );
       const updatedRowData = response.data.map((grade) => ({
-        ...grade,
+        ...grade, 
         percentage: calculatePercentage(grade.maxMarks, grade.scoredMarks),
       }));
       setRowData(updatedRowData);
@@ -90,7 +90,7 @@ function GradeTracker() {
   
   const handleRemoveGrade = async (id) => {
     try {
-      await axios.post("http://localhost:5000/marks/removeGrade", {
+      await axios.post("https://edu-track-dusky.vercel.app/marks/removeGrade", {
         gradeId: id,
         id: sessionStorage.getItem("id"),
       });
@@ -115,7 +115,7 @@ function GradeTracker() {
   const handleAddGrade = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/marks/addGrade",
+        "https://edu-track-dusky.vercel.app/marks/addGrade",
         { marks: newGrade, id: sessionStorage.getItem("id") }
       );
       console.log(response.data);
