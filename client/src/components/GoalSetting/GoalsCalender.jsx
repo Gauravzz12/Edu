@@ -54,10 +54,9 @@ const MyCalendar = () => {
         const response = await axios.get("http://localhost:5000/goals/getgoals", {
           params: { id: sessionStorage.getItem("id") },
         });
-        const data = response.data;
-        console.log(data);
-        setGoals(data); 
-        const mappedEvents = data.map(({ goal, deadline,completed }) => ({
+        
+        setGoals(response.data); 
+        const mappedEvents = response.data.map(({ goal, deadline,completed }) => ({
           title: goal,
           start: new Date(deadline),
           end: new Date(deadline),
