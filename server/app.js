@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const connectDB = require('./db/config');
+const router = express.Router();
 
 const AuthRoutes = require('./routes/Authroutes');
 const GoalsRoutes = require('./routes/Goalsroutes');
@@ -16,6 +17,9 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
 
+router.get('/',(res,req)=>{
+    res.json("Hello World");
+})
 app.use('/auth', AuthRoutes);
 app.use('/goals', GoalsRoutes);
 app.use('/marks', MarksRoutes);
