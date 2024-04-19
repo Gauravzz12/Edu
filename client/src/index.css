@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap');
+
+html,
+body,
+#root{
+  margin: 0;
+  padding: 0;
+}
+.app,
+.content{
+  height:100vh;
+  width:100vw;
+  font-family: 'Source Sans 3',sans-serif ;
+  background-color: rgb(224, 223, 223);
+  overflow: auto;
+  
+}
+
+.app{
+  display: flex;
+}

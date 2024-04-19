@@ -1,0 +1,45 @@
+.rbc-calendar {
+  width: 100%;
+  margin: 0 auto;
+  color: black;
+}
+
+.rbc-event-content {
+  color: white;
+}
+/* Modal overlay */
+.modal-overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 4;
+  top: 40%;
+  color: black;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  padding: 20px;
+  border-radius: 10px;
+  width: 80%;
+  max-width: 600px;
+  color: black;
+}
+
+/* Close button */
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+
+/* Motivational quote */
+.motivational-quote {
+  font-style: italic;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
