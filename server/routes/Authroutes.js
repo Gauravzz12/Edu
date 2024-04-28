@@ -10,9 +10,8 @@ router.use(cors());
 
 router.post('/register', async (req, res) => {
     try {
-      const { name, id,email, phone, password } = req.body;
-      console.log(id)
-      if (!name ||!id|| !email || !phone || !password) {
+      const { name, id,email, phone, password,branch } = req.body;
+      if (!name ||!id|| !email || !phone || !password||!branch) {
         return res.status(422).json({ error: "Please fill all the required fields" });
       }
   
@@ -28,6 +27,7 @@ router.post('/register', async (req, res) => {
         id,
         email,
         phone,
+        branch,
         password: hashedPassword
       });
   
