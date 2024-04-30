@@ -46,6 +46,7 @@ function GradeTracker() {
 
   useEffect(() => {
     fetchGrades();
+
   }, []);
   const fetchGrades = async () => {
     try {
@@ -76,7 +77,6 @@ function GradeTracker() {
   const [RemoveMode, setRemoveMode] = useState(false);
   const setMode = () => {
     setRemoveMode(!RemoveMode);
-    console.log(RemoveMode);
   };
   const onSelectionChanged = (e) => {
     if (RemoveMode) {
@@ -120,7 +120,6 @@ function GradeTracker() {
         "https://edu-track-dusky.vercel.app/marks/addGrade",
         { marks: newGrade, id: sessionStorage.getItem("id") }
       );
-      console.log(response.data);
       const updatedRowData = {
        ...response.data,
         percentage: calculatePercentage(
@@ -130,8 +129,6 @@ function GradeTracker() {
       };
 
       setRowData((prevData) => [...prevData, updatedRowData]);
-      console.log(rowData); 
-
       setIsModalOpen(false);
       setNewGrade({
         subject: "",
@@ -145,6 +142,24 @@ function GradeTracker() {
       console.error("Error adding grade:", error);
     }
   };
+ 
+
+  const resultArray = [];
+rowData.forEach(item => {
+    const { subject, testType, scoredMarks } = item;
+    let subjectObject = resultArray.find(obj => obj.Subject === subject);
+    if (!subjectObject) {
+        subjectObject = { Subject: subject };
+        resultArray.push(subjectObject);
+    }
+    subjectObject[testType] = scoredMarks;
+});
+
+
+  
+  
+  
+  
 
   return (
     <div className="grade-tracker-container">
@@ -191,6 +206,8 @@ function GradeTracker() {
               onGridSizeChanged={onGridSizeChanged}
               rowSelection="single"
               onSelectionChanged={onSelectionChanged}
+              pagination={true}
+              paginationPageSize={5}              
             />
           </div>
 
@@ -216,10 +233,10 @@ function GradeTracker() {
                 >
                   <option value="">Select Subject</option>
                   <option value="DSA">DSA</option>
-                  <option value="WEB">JAVA</option>
+                  <option value="WEB">WEB</option>
                   <option value="NALR">NALR</option>
-                  <option value="CLOUD">ENGLISH</option>
-                  <option value="IP">WDMS</option>
+                  <option value="CLOUD">CLOUD</option>
+                  <option value="IP">IP</option>
                 </select>
               </div>
               <div className="Grade-form-group">
@@ -236,10 +253,8 @@ function GradeTracker() {
                   <option value="">Select Test Type</option>
                   <option value="ST1">ST1</option>
                   <option value="ST2">ST2</option>
-                  <option value="ST3">ST3</option>
                   <option value="ETE">ETE</option>
-                  <option value="FA1">FA1</option>
-                  <option value="FA2">FA2</option>
+                  <option value="FA">FA</option>
                 </select>
               </div>
 
@@ -281,15 +296,18 @@ function GradeTracker() {
         </div>
       </div>
       <BarChart
+      dataset={resultArray}
       series={[
-        { data: [35, 44, 24, 34] },
-        { data: [51, 6, 49, 30] },
-        { data: [15, 25, 30, 50] },
-        { data: [60, 50, 15, 25] },
+        { dataKey: 'FA',label:"FA" },
+        { dataKey: 'ST1' ,label:"ST1"},
+        { dataKey: 'ST2',label:"ST2" },
+        { dataKey: 'ETE',label:"ETE" },
+        
       ]}
       height={290}
-      xAxis={[{ data: ['Q1', 'Q2', 'Q3', 'Q4'], scaleType: 'band' }]}
-      margin={{ top: 10, bottom: 30, left: 40, right: 10 }}
+      
+      xAxis={[{ dataKey: 'Subject', scaleType:'band'}]}
+      margin={{ top: 40, bottom: 30, left: 40, right: 10 }}
     />
     </div>
   );
