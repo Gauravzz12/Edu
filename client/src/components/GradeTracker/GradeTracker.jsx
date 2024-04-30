@@ -104,6 +104,15 @@ function GradeTracker() {
 
   const handleAddGrade = useCallback(async () => {
     try {
+
+      
+      if (rowData.some(item => item.subject === newGrade.subject && item.testType === newGrade.testType)) {
+        setIsModalOpen(false);
+
+        alert("Grade already exists for the selected subject and test type");
+        return; 
+      }
+
       const response = await axios.post(`${API_URL}/addGrade`, {
         marks: newGrade,
         id: sessionStorage.getItem("id"),

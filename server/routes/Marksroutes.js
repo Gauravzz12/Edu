@@ -15,36 +15,40 @@ router.get('/getGrades', async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+
 router.post('/addGrade', async (req, res) => {
-    const { marks, id } = req.body;
+    const { marks,id} = req.body;
     try {  
         const ifExists = await MarksModel.findOne({ _id: id });
 
-        if (ifExists) {
-            const existingMarkIndex = ifExists.marks.findIndex(mark => mark.subject === marks.subject && mark.testType === marks.testType);
-            if (existingMarkIndex !== -1) {
-                ifExists.marks[existingMarkIndex] = marks;
-                const updatedMarks = await ifExists.save();
-                res.json(updatedMarks.marks[existingMarkIndex]);
-            } else {
-                ifExists.marks.push(marks);
-                const updatedMarks = await ifExists.save();
-                res.json(updatedMarks.marks[updatedMarks.marks.length - 1]);
-            }
-        } else {
-            const newMarksEntry = new MarksModel({
-                _id: id,
-                marks: [marks],
-            });
-            const savedMarksEntry = await newMarksEntry.save();
-            res.json(savedMarksEntry.marks[0]);
-        }
+if (ifExists) {
+    
+
+    const updatedMarks = await MarksModel.findOneAndUpdate(
+        { _id: id },
+        {
+            $push: { 
+                marks: marks,
+            },
+        },
+        { new: true } 
+    );
+    res.json( updatedMarks.marks[updatedMarks.marks.length-1]);
+}
+
+        else{
+        const newMarksEntry = new MarksModel({
+            _id:id,
+            marks: marks,
+        });
+        const savedMarksEntry = await newMarksEntry.save();
+   
+            res.json(savedMarksEntry.marks[0]);}
     } catch (err) {
         console.error('Error adding marks entry:', err);
         res.status(500).json({ error: 'Failed to add marks entry' });
     }
 });
-
 
 router.post('/removeGrade', async (req, res) => {
     const { gradeId, id } = req.body;
