@@ -3,15 +3,16 @@ import UserImage from "../../assets/User.png";
 import UniImage from "../../assets/university.png";
 import degree from "../../assets/degree.png";
 import id from "../../assets/Id.png";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import axios from "axios";
 import Modal from "react-modal";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
-import { BarChart } from '@mui/x-charts/BarChart';
+import { BarChart } from "@mui/x-charts/BarChart";
 
 Modal.setAppElement("#root");
+const API_URL = "https://edu-track-dusky.vercel.app/marks";
 
 function GradeTracker() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,13 +22,6 @@ function GradeTracker() {
     maxMarks: 0,
     scoredMarks: 0,
   });
-  const calculatePercentage = (maxMarks, scoredMarks) => {
-    if (maxMarks === 0) {
-      return 0;
-    }
-    const percentage = (scoredMarks / maxMarks) * 100;
-    return parseFloat(percentage.toFixed(2));
-  };
   const onFirstDataRendered = (params) => {
     params.api.sizeColumnsToFit();
   };
@@ -46,27 +40,23 @@ function GradeTracker() {
 
   useEffect(() => {
     fetchGrades();
-
   }, []);
-  const fetchGrades = async () => {
+
+  const fetchGrades = useCallback(async () => {
     try {
-      const response = await axios.get(
-        "https://edu-track-dusky.vercel.app/marks/getGrades",
-        {
-          params: {
-            id: sessionStorage.getItem("id"),
-          },
-        }
-      );
+      const response = await axios.get(`${API_URL}/getGrades`, {
+        params: { id: sessionStorage.getItem("id") },
+      });
       const updatedRowData = response.data.map((grade) => ({
-        ...grade, 
-        percentage: calculatePercentage(grade.maxMarks, grade.scoredMarks),
+        ...grade,
+        percentage:
+          grade.maxMarks === 0 ? 0 : ((grade.scoredMarks / grade.maxMarks) * 100).toFixed(2),
       }));
       setRowData(updatedRowData);
     } catch (error) {
       console.error("Error fetching grades:", error);
     }
-  };
+  }, []);
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -81,7 +71,6 @@ function GradeTracker() {
   const onSelectionChanged = (e) => {
     if (RemoveMode) {
       const selectedRow = e.api.getSelectedRows();
-      console.log(selectedRow)
       if (selectedRow.length > 0) {
         const selectedId = selectedRow[0]._id;
         handleRemoveGrade(selectedId);
@@ -89,10 +78,10 @@ function GradeTracker() {
       }
     }
   };
-  
+
   const handleRemoveGrade = async (id) => {
     try {
-      await axios.post("https://edu-track-dusky.vercel.app/marks/removeGrade", {
+      await axios.post(`${API_URL}/removeGrade`, {
         gradeId: id,
         id: sessionStorage.getItem("id"),
       });
@@ -102,64 +91,51 @@ function GradeTracker() {
     }
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = useCallback((e) => {
     const { name, value } = e.target;
-
-    const Value =
-      name === "maxMarks" || name === "scoredMarks" ? parseFloat(value) : value;
-
     setNewGrade((prevState) => ({
       ...prevState,
-      [name]: Value,
+      [name]:
+        name === "maxMarks" || name === "scoredMarks"
+          ? parseFloat(value)
+          : value,
     }));
-  };
+  }, []);
 
-  const handleAddGrade = async () => {
+  const handleAddGrade = useCallback(async () => {
     try {
-      const response = await axios.post(
-        "https://edu-track-dusky.vercel.app/marks/addGrade",
-        { marks: newGrade, id: sessionStorage.getItem("id") }
-      );
+      const response = await axios.post(`${API_URL}/addGrade`, {
+        marks: newGrade,
+        id: sessionStorage.getItem("id"),
+      });
       const updatedRowData = {
-       ...response.data,
-        percentage: calculatePercentage(
-          newGrade.maxMarks,
-          newGrade.scoredMarks
-        ),
+        ...response.data,
+        percentage:
+          newGrade.maxMarks === 0
+            ? 0
+            : ((newGrade.scoredMarks / newGrade.maxMarks) * 100).toFixed(2),
       };
-
       setRowData((prevData) => [...prevData, updatedRowData]);
       setIsModalOpen(false);
-      setNewGrade({
-        subject: "",
-        testType: "",
-        maxMarks: 0,
-        scoredMarks: 0,
-      });
-      setRemoveMode(false);
-
+      setNewGrade({ subject: "", testType: "", maxMarks: 0, scoredMarks: 0 });
     } catch (error) {
       console.error("Error adding grade:", error);
     }
-  };
- 
+  }, [newGrade]);
 
-  const resultArray = [];
-rowData.forEach(item => {
-    const { subject, testType, scoredMarks } = item;
-    let subjectObject = resultArray.find(obj => obj.Subject === subject);
-    if (!subjectObject) {
+  const resultArray = useMemo(() => {
+    const result = [];
+    rowData.forEach((item) => {
+      const { subject, testType, scoredMarks } = item;
+      let subjectObject = result.find((obj) => obj.Subject === subject);
+      if (!subjectObject) {
         subjectObject = { Subject: subject };
-        resultArray.push(subjectObject);
-    }
-    subjectObject[testType] = scoredMarks;
-});
-
-
-  
-  
-  
-  
+        result.push(subjectObject);
+      }
+      subjectObject[testType] = scoredMarks;
+    });
+    return result;
+  }, [rowData]);
 
   return (
     <div className="grade-tracker-container">
@@ -178,7 +154,9 @@ rowData.forEach(item => {
             <img src={degree} alt="User" className="Grade-user-image" />
             <span className="Grade-username">Computer Science</span>
             <img src={id} alt="User" className="Grade-user-image" />
-            <span className="Grade-username">{sessionStorage.getItem("clg_id")}{" "}</span>
+            <span className="Grade-username">
+              {sessionStorage.getItem("clg_id")}{" "}
+            </span>
           </div>
         </div>
         <div className="Grade-Box2">
@@ -207,7 +185,7 @@ rowData.forEach(item => {
               rowSelection="single"
               onSelectionChanged={onSelectionChanged}
               pagination={true}
-              paginationPageSize={5}              
+              paginationPageSize={5}
             />
           </div>
 
@@ -296,19 +274,17 @@ rowData.forEach(item => {
         </div>
       </div>
       <BarChart
-      dataset={resultArray}
-      series={[
-        { dataKey: 'FA',label:"FA" },
-        { dataKey: 'ST1' ,label:"ST1"},
-        { dataKey: 'ST2',label:"ST2" },
-        { dataKey: 'ETE',label:"ETE" },
-        
-      ]}
-      height={290}
-      
-      xAxis={[{ dataKey: 'Subject', scaleType:'band'}]}
-      margin={{ top: 40, bottom: 30, left: 40, right: 10 }}
-    />
+        dataset={resultArray}
+        series={[
+          { dataKey: "FA", label: "FA" },
+          { dataKey: "ST1", label: "ST1" },
+          { dataKey: "ST2", label: "ST2" },
+          { dataKey: "ETE", label: "ETE" },
+        ]}
+        height={290}
+        xAxis={[{ dataKey: "Subject", scaleType: "band" }]}
+        margin={{ top: 40, bottom: 30, left: 40, right: 10 }}
+      />
     </div>
   );
 }
