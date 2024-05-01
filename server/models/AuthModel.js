@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    branch:{
+    year:{
         type:String,
         required:true
     },

@@ -9,7 +9,7 @@ const Register = () => {
     email: "",
     phone: "",
     password: "",
-    branch: "",
+    year: "",
   });
 
   let name, value;
@@ -26,7 +26,7 @@ const Register = () => {
   const PostData = async (e) => {
     e.preventDefault();
 
-    const { name, id, email, phone, password,branch } = user;
+    const { name, id, email, phone, password,year } = user;
 
     const res = await fetch(
       "https://edu-track-dusky.vercel.app/auth/register",
@@ -35,7 +35,7 @@ const Register = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name, id, email, phone, password }),
+        body: JSON.stringify({ name, id, email, phone, password,year }),
       }
     );
 
@@ -110,20 +110,21 @@ const Register = () => {
                   />
                 </div>
                 <div className="group">
-                  <label htmlFor="branch">Branch</label>
+                  <label htmlFor="year">Year</label>
                   <select
                     type="text"
-                    name="branch"
+                    name="year"
                     className="input"
-                    id="branch"
-                    placeholder="Your Branch"
-                    value={user.branch}
+                    id="year"
+                    placeholder="Your year"
+                    value={user.year}
                     onChange={handleInputs}
                   >
-                    <option value="">Select Branch</option>
-                  <option value="BE">CSE</option>
-                  <option value="BCA">BCA</option>
-                  <option value="Pharmacy">Pharmacy</option>
+                    <option value="">Select Year</option>
+                  <option value="one">1st</option>
+                  <option value="two">2nd</option>
+                  <option value="three">3rd</option>
+                  <option value="four">4th</option>
                   </select>
                 </div>
 
