@@ -9,7 +9,7 @@ import Register from './components/Authorization/Register.jsx';
 import GradeTracker from './components/GradeTracker/GradeTracker';
 import GoalList from './components/GoalSetting/GoalsList';
 import BooksResourcePage from './components/ResourceLibrary/ResourceLibrary'
-
+import Rankings from './components/Ranking/Ranking.jsx'
 
 
 
@@ -40,6 +40,8 @@ function App() {
                 <Route path="/GradeTracker" element={<GradeTracker />} />
                 <Route path='/goalsList' element={<GoalList/>}/>
                 <Route path='/ResourceLibrary' element={<BooksResourcePage/>}/>
+                <Route path='/Rankings' element={<Rankings/>}/>
+
 
 
               </Routes>

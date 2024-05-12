@@ -74,9 +74,12 @@ function GradeTracker() {
       if (selectedRow.length > 0) {
         const selectedId = selectedRow[0]._id;
         handleRemoveGrade(selectedId);
-        e.api.deselectAll();
       }
     }
+    else
+        e.api.deselectAll();
+
+
   };
 
   const handleRemoveGrade = async (id) => {
@@ -116,6 +119,7 @@ function GradeTracker() {
       const response = await axios.post(`${API_URL}/addGrade`, {
         marks: newGrade,
         id: sessionStorage.getItem("id"),
+        name:sessionStorage.getItem("name")
       });
       const updatedRowData = {
         ...response.data,

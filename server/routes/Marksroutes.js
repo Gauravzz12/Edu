@@ -6,9 +6,9 @@ const router = express.Router();
 router.use(bodyParser.json());
 router.get('/getGrades', async (req, res) => {
     try {
-        
         const id = req.query.id;
         const grades = await MarksModel.find({ _id:id });
+        console.log(grades[0].marks)    
         res.json(grades[0].marks);
     } catch (err) {
         console.error(err);
@@ -16,8 +16,19 @@ router.get('/getGrades', async (req, res) => {
     }
 });
 
+router.get('/getRankings', async (req, res) => {
+    try {
+        const data = await MarksModel.find();
+        res.json(data);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
 router.post('/addGrade', async (req, res) => {
-    const { marks,id} = req.body;
+    const { marks,id,name} = req.body;
+    console.log(name);
     try {  
         const ifExists = await MarksModel.findOne({ _id: id });
 
@@ -39,6 +50,7 @@ if (ifExists) {
         else{
         const newMarksEntry = new MarksModel({
             _id:id,
+            name:name,
             marks: marks,
         });
         const savedMarksEntry = await newMarksEntry.save();

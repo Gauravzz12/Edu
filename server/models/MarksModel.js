@@ -11,6 +11,11 @@ const marksSchema = new mongoose.Schema({
     id:{
         type: mongoose.Schema.Types.ObjectId,
     },
+    name:{
+        type: String,
+        required: true
+    
+    },
     marks:{
         type: [markDetailsSchema],
         required: true

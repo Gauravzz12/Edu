@@ -4,11 +4,11 @@ import { Link, useNavigate } from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import GradeIcon from "@mui/icons-material/Grade";
+import SchoolIcon from '@mui/icons-material/School';
 import FlagIcon from "@mui/icons-material/Flag";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-
+import LeaderboardIcon from '@mui/icons-material/Leaderboard';
 const Item = ({ title, to, icon, selected, setSelected }) => {
   return (
     <MenuItem
@@ -40,10 +40,6 @@ const Sidebars = () => {
         <MenuItem
           onClick={() => setIsCollapsed(!isCollapsed)}
           icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
-          style={{
-            margin: "10px 0 20px 0",
-            position: "sticky",
-          }}
         >
           {!isCollapsed && (
             <div
@@ -52,15 +48,16 @@ const Sidebars = () => {
                 justifyContent: "space-between",
                 alignItems: "center",
                 marginLeft: "4px",
+                marginBottom:"-20px"
               }}
             >
-              <h1>EDUTRACK+</h1>
+              <h1 style={{color:"gold"}}>EDUTRACK+</h1>
             </div>
           )}
         </MenuItem>
 
         {!isCollapsed && (
-          <div style={{ marginBottom: "20px", paddingTop: "25px" }}>
+          <div >
             <div
               style={{
                 textAlign: "left",
@@ -101,7 +98,14 @@ const Sidebars = () => {
           <Item
             title="Grade Tracker"
             to="/GradeTracker"
-            icon={<GradeIcon />}
+            icon={<SchoolIcon />}
+            selected={selected}
+            setSelected={setSelected}
+          />
+          <Item
+            title="Rankings"
+            to="/Rankings"
+            icon={<LeaderboardIcon />}
             selected={selected}
             setSelected={setSelected}
           />
