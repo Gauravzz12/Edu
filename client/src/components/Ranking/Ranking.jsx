@@ -1,9 +1,32 @@
 import styled from "styled-components";
 import React, { useEffect, useState } from "react";
-import medal1 from "../../assets/award_medals_1.jpg";
-import medal2 from "../../assets/award_medals_2.jpg";
-import medal3 from "../../assets/award_medals_3.jpg";
 import axios from "axios";
+const Table = styled.table`
+  width: 60%;
+  border: none;
+  margin-top: 20px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+`;
+
+const Th = styled.th`
+  text-align: center;
+  padding: 8px;
+  background-color: #f0f0f0;
+  font-weight: bold;
+  color: black;
+  font-size: x-large;
+  font-family: cursive;
+`;
+
+const Td = styled.td`
+  text-align: center;
+  padding: 8px;
+  font-size: larger;
+  font-family: cursive;
+
+  color: #12376e;
+`;
 const Title = styled.h1`
   color: #12376e;
   font-weight: bold;
@@ -38,57 +61,50 @@ const Container = styled.div`
   width: 100%;
 `;
 
-const Stats = styled.div`
-  min-width: 300px;
-  min-height: 200px;
-  border: 2px solid black;
-  background-color: #ffff;
-  box-shadow: 22px 22px 46px #828282, -22px -22px 46px #ffffff;
-`;
-
 const TopBox = styled.div`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
   width: 100%;
+  background-color: #f0f0f0;
+  padding: 20px 0;
 `;
 
 const Performer = styled.div`
-  min-height: 100px;
-  min-width: 100px;
+  min-height: 60px;
+  min-width: 300px;
   display: flex;
   justify-content: center;
+  flex-direction: column;
   gap: 10px;
   align-items: center;
-  img {
-    width: 40px;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-  }
+  background-color: white;
+  font-family: cursive;
+  font-size: small;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  background-image: linear-gradient(to right, #9c812e, #fffca4, #ffe45d);
 `;
 
-const RemainingPerformers = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
+const PerformerName = styled.h2`
+  margin: 0;
+  color: #12376e;
 `;
 
-const RemainingPerformer = styled.div`
-  min-height: 100px;
-  min-width: 100px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+const PerformerImage = styled.img`
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  mix-blend-mode: multiply;
+  filter: brightness(1.12);
 `;
-
 function Ranking() {
   const [subject, setSubject] = useState("DSA");
   const [testType, setTestType] = useState("FA");
-  const [performers, setPerformers] = useState([]);
-  const [rankings,setRankigs]=useState([]);
-  const [data,setData]=useState([]);
+  const [rankings, setRankigs] = useState([]);
+  const [data, setData] = useState([]);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     if (name === "subject") {
@@ -96,14 +112,17 @@ function Ranking() {
     } else if (name === "testType") {
       setTestType(value);
     }
-    getRankings(subject,testType);
+    getRankings(subject, testType);
   };
-  
+
   const fetchData = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/marks/getRankings`, {
-        params: { id: sessionStorage.getItem("id") },
-      });
+      const response = await axios.get(
+        `https://edu-track-dusky.vercel.app/marks/getRankings`,
+        {
+          params: { id: sessionStorage.getItem("id") },
+        }
+      );
       setData(response.data);
       getRankings("DSA", "FA", response.data);
     } catch (error) {
@@ -118,8 +137,7 @@ function Ranking() {
         if (mark.subject === subject && mark.testType === testType) {
           const { scoredMarks } = mark;
           const name = user.name;
-          console.log(name)
-          console.log(user);
+
           if (!userRankings[name]) {
             userRankings[name] = 0;
           }
@@ -127,7 +145,9 @@ function Ranking() {
         }
       });
     });
-    const userRankingsArray = Object.entries(userRankings).map(([name, totalMarks]) => ({ name, totalMarks }));
+    const userRankingsArray = Object.entries(userRankings).map(
+      ([name, totalMarks]) => ({ name, totalMarks })
+    );
     userRankingsArray.sort((a, b) => b.totalMarks - a.totalMarks);
     setRankigs(userRankingsArray);
   };
@@ -139,9 +159,10 @@ function Ranking() {
   useEffect(() => {
     getRankings(subject, testType);
   }, [subject, testType]);
-  const topPerformers = performers.slice(0, 3);
-  const remainingPerformers = performers.slice(3);
 
+  const topPerformers = rankings.slice(0, 3);
+  const remainingPerformers = rankings.slice(3);
+const xlabel=rankings.map((performer) => performer.name);
   return (
     <>
       <Box>
@@ -152,7 +173,7 @@ function Ranking() {
         <select id="subject" name="subject" onChange={handleInputChange}>
           <option value="DSA">DSA</option>
           <option value="WEB">WEB</option>
-          <option value="NALR">NALR</option>
+          <option value="SD">SD</option>
           <option value="CLOUD">CLOUD</option>
           <option value="IP">IP</option>
         </select>
@@ -165,43 +186,67 @@ function Ranking() {
         </select>
       </Dropdiv>
       <Container>
-        <center>
-          <h1>Top Performers </h1>
-        </center>
-
         <TopBox>
           {topPerformers.map((performer, index) => (
             <Performer key={index}>
-              <h2>{performer.name}</h2>
-              <img src={performer.img} alt={performer.name} />
+              <h2>Rank : {index + 1}</h2>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  marginTop: "-30px",
+                  justifyContent: "center",
+                  marginBottom: "-30px",
+                }}
+              >
+                <PerformerName>{performer.name}</PerformerName>
+                <PerformerImage 
+                  src={`/src/assets/medal${index + 1}.jpg`}
+                  alt={performer.name}
+                />
+              </div>
+              <h2>Marks : {performer.totalMarks}</h2>
             </Performer>
           ))}
         </TopBox>
-
-        <center>
-          <h1>Remaining Performers </h1>
-        </center>
-
-        <RemainingPerformers>
-          {remainingPerformers.map((performer, index) => (
-            <RemainingPerformer key={index}>
-              <h2>{performer.name}</h2>
-              <img src={performer.img} alt={performer.name} />
-            </RemainingPerformer>
-          ))}
-        </RemainingPerformers>
-        <div>
-          {rankings.map((ranking, index) => (
-            <div key={index}>
-              <p>UserID: {ranking.name}</p>
-              <p>Total Marks: {ranking.totalMarks}</p>
-              <hr />
-            </div>
-          ))}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: "20px",
+          }}
+        >
+          <Table>
+            <thead>
+              <tr>
+                <Th>Rank</Th>
+                <Th>Name</Th>
+                <Th>Marks</Th>
+              </tr>
+            </thead>
+            <tbody>
+              {remainingPerformers.map((performer, index) => (
+                <tr
+                  key={index}
+                  style={{
+                    backgroundColor:
+                      performer.name === sessionStorage.getItem("name")
+                        ? "lightBlue"
+                        : "inherit",
+                  }}
+                >
+                  <Td>{index + 3}</Td>
+                  <Td>{performer.name}</Td>
+                  <Td>{performer.totalMarks}</Td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
         </div>
+        
       </Container>
     </>
   );
 }
-
 export default Ranking;

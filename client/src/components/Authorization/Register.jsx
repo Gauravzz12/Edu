@@ -7,7 +7,6 @@ const Register = () => {
     name: "",
     id: "",
     email: "",
-    phone: "",
     password: "",
     year: "",
   });
@@ -26,7 +25,7 @@ const Register = () => {
   const PostData = async (e) => {
     e.preventDefault();
 
-    const { name, id, email, phone, password,year } = user;
+    const { name, id, email, password,year } = user;
 
     const res = await fetch(
       "https://edu-track-dusky.vercel.app/auth/register",
@@ -128,18 +127,6 @@ const Register = () => {
                   </select>
                 </div>
 
-                <div className="group">
-                  <label htmlFor="phone">Contact</label>
-                  <input
-                    type="number"
-                    name="phone"
-                    id="phone"
-                    className="input"
-                    placeholder="Your Phone"
-                    value={user.phone}
-                    onChange={handleInputs}
-                  />
-                </div>
 
                 <div className="group">
                   <label htmlFor="password">Password</label>

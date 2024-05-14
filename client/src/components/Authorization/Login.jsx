@@ -20,7 +20,7 @@ const Login = ({ setLoggedIn }) => {
     });
 
     const data = await res.json();
-
+    
     if (res.status === 400 || !data) {
       window.alert('Invalid Credentials');
     } else {
@@ -29,6 +29,7 @@ const Login = ({ setLoggedIn }) => {
       sessionStorage.setItem('name', data.name);
       sessionStorage.setItem('id', data.id);
       sessionStorage.setItem('clg_id', data.clg_id);
+      sessionStorage.setItem('year', data.year);
 
       setLoggedIn(true);
       navigate('/');

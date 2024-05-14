@@ -25,7 +25,7 @@ const ConfettiEffect = ({ message }) => {
 
   return (
     <div style={confettiPopupStyle}>
-      <Confetti  gravity={0.5}/>
+      <Confetti/>
       <h1 className="message" style={messageStyle}>{message}</h1>
     </div>
   );

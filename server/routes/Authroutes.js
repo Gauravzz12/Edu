@@ -10,7 +10,7 @@ router.use(cors());
 
 router.post('/register', async (req, res) => {
     try {
-      const { name, id,email, phone, password,year } = req.body;
+      const { name, id,email, password,year } = req.body;
       if (!name ||!id|| !email || !phone || !password||!year) {
         return res.status(422).json({ error: "Please fill all the required fields" });
       }
@@ -26,7 +26,6 @@ router.post('/register', async (req, res) => {
         name,
         id,
         email,
-        phone,
         year,
         password: hashedPassword
       });
@@ -55,7 +54,7 @@ router.post('/login', async (req, res) => {
           if (!isMatch) {
               return res.status(400).json({ error: "Invalid Credentials" });
           } else {
-              return res.json({name:userLogin.name,clg_id:userLogin.id,id:userLogin._id});
+              return res.json({name:userLogin.name,clg_id:userLogin.id,id:userLogin._id,year:userLogin.year});
           }
       } else {
           return res.status(400).json({ error: "Invalid Credentials" });
