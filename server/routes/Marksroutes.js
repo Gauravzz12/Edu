@@ -17,7 +17,7 @@ router.get('/getGrades', async (req, res) => {
 });
 
 router.get('/getRankings', async (req, res) => {
-    const {year}=req.body;
+    const {year}=req.query;
     console.log(year);
     try {
         const data = await MarksModel.find({year:year});

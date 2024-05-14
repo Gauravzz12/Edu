@@ -123,7 +123,6 @@ function Ranking() {
           params: { year: sessionStorage.getItem("year") },
         }
       );
-      console.log(response.data);+
       setData(response.data);
       getRankings("DSA", "FA", response.data);
     } catch (error) {
@@ -163,7 +162,6 @@ function Ranking() {
 
   const topPerformers = rankings.slice(0, 3);
   const remainingPerformers = rankings.slice(3);
-const xlabel=rankings.map((performer) => performer.name);
   return (
     <>
       <Box>
