@@ -17,8 +17,9 @@ router.get('/getGrades', async (req, res) => {
 });
 
 router.get('/getRankings', async (req, res) => {
+    const {year}=req.body;
     try {
-        const data = await MarksModel.find();
+        const data = await MarksModel.find({year:year});
         res.json(data);
     } catch (err) {
         console.error(err);
@@ -27,7 +28,7 @@ router.get('/getRankings', async (req, res) => {
 });
 
 router.post('/addGrade', async (req, res) => {
-    const { marks,id,name} = req.body;
+    const { marks,id,name,year} = req.body;
     console.log(name);
     try {  
         const ifExists = await MarksModel.findOne({ _id: id });

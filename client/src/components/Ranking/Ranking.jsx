@@ -120,7 +120,7 @@ function Ranking() {
       const response = await axios.get(
         `https://edu-track-dusky.vercel.app/marks/getRankings`,
         {
-          params: { id: sessionStorage.getItem("id") },
+          params: { year: sessionStorage.getItem("year") },
         }
       );
       setData(response.data);

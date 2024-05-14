@@ -120,10 +120,10 @@ const Register = () => {
                     onChange={handleInputs}
                   >
                     <option value="">Select Year</option>
-                  <option value="one">1st</option>
-                  <option value="two">2nd</option>
-                  <option value="three">3rd</option>
-                  <option value="four">4th</option>
+                  <option value="first">1st</option>
+                  <option value="second">2nd</option>
+                  <option value="third">3rd</option>
+                  <option value="fourth">4th</option>
                   </select>
                 </div>
 

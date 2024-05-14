@@ -119,7 +119,8 @@ function GradeTracker() {
       const response = await axios.post(`${API_URL}/addGrade`, {
         marks: newGrade,
         id: sessionStorage.getItem("id"),
-        name:sessionStorage.getItem("name")
+        name:sessionStorage.getItem("name"),
+        year:sessionStorage.getItem('year')
       });
       const updatedRowData = {
         ...response.data,
