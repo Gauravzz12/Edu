@@ -21,14 +21,11 @@ const Content = styled.div`
   margin-bottom: 30px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   overflow: auto;
-
- 
-  }
 `;
 
 const Title = styled.h1`
   margin-bottom: 10px;
-  color: #3f51b5; /* Updated to a green color */
+  color: #3f51b5; 
   font-weight: bold;
 `;
 
