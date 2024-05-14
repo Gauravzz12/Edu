@@ -18,6 +18,7 @@ router.get('/getGrades', async (req, res) => {
 
 router.get('/getRankings', async (req, res) => {
     const {year}=req.body;
+    console.log(year);
     try {
         const data = await MarksModel.find({year:year});
         res.json(data);
@@ -29,13 +30,10 @@ router.get('/getRankings', async (req, res) => {
 
 router.post('/addGrade', async (req, res) => {
     const { marks,id,name,year} = req.body;
-    console.log(name);
     try {  
         const ifExists = await MarksModel.findOne({ _id: id });
 
 if (ifExists) {
-    
-
     const updatedMarks = await MarksModel.findOneAndUpdate(
         { _id: id },
         {
@@ -47,15 +45,14 @@ if (ifExists) {
     );
     res.json( updatedMarks.marks[updatedMarks.marks.length-1]);
 }
-
         else{
         const newMarksEntry = new MarksModel({
             _id:id,
             name:name,
+            year:year,
             marks: marks,
         });
         const savedMarksEntry = await newMarksEntry.save();
-   
             res.json(savedMarksEntry.marks[0]);}
     } catch (err) {
         console.error('Error adding marks entry:', err);

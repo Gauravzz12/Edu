@@ -123,6 +123,7 @@ function Ranking() {
           params: { year: sessionStorage.getItem("year") },
         }
       );
+      console.log(response.data);+
       setData(response.data);
       getRankings("DSA", "FA", response.data);
     } catch (error) {
