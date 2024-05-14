@@ -34,7 +34,7 @@ const Register = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name, id, email, phone, password,year }),
+        body: JSON.stringify({ name, id, email, password,year }),
       }
     );
 
