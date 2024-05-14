@@ -235,7 +235,7 @@ function Ranking() {
                         : "inherit",
                   }}
                 >
-                  <Td>{index + 3}</Td>
+                  <Td>{index + 4}</Td>
                   <Td>{performer.name}</Td>
                   <Td>{performer.totalMarks}</Td>
                 </tr>
