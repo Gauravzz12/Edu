@@ -294,7 +294,7 @@ function Ranking() {
                 >
                   <PerformerName>{performer.name}</PerformerName>
                   <PerformerImage
-                    src={`/src/assets/medal${index + 1}.jpg`}
+                    src={`./src/assets/medal${index + 1}.jpg`}
                     alt={performer.name}
                   />
                 </div>
