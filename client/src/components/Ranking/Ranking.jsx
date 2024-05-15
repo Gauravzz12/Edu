@@ -189,7 +189,6 @@ function Ranking() {
     const subjectsData = {};
 
     x.forEach((user) => {
-      if(user.name === sessionStorage.getItem("name")) {
       user.marks.forEach((mark) => {
         console.log(mark);
         const { subject, scoredMarks } = mark;
@@ -204,7 +203,6 @@ function Ranking() {
         subjectsData[subject].totalMarks += scoredMarks;
         subjectsData[subject].count++;
       });
-    }
     });
 
     const subjectAverages = Object.keys(subjectsData).map((subject) => ({
