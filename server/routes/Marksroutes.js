@@ -8,7 +8,6 @@ router.get('/getGrades', async (req, res) => {
     try {
         const id = req.query.id;
         const grades = await MarksModel.find({ _id:id });
-        console.log(grades[0].marks)    
         res.json(grades[0].marks);
     } catch (err) {
         console.error(err);
@@ -18,7 +17,6 @@ router.get('/getGrades', async (req, res) => {
 
 router.get('/getRankings', async (req, res) => {
     const {year}=req.query;
-    console.log(year);
     try {
         const data = await MarksModel.find({year:year});
         res.json(data);

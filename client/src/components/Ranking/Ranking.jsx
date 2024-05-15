@@ -147,7 +147,6 @@ function Ranking() {
           params: { year: sessionStorage.getItem("year") },
         }
       );
-      console.log(sessionStorage.getItem("year"));
       setData(response.data);
       getRankings("DSA", "FA", response.data);
       calculateSubjectPerformances(response.data);
@@ -190,7 +189,6 @@ function Ranking() {
 
     x.forEach((user) => {
       user.marks.forEach((mark) => {
-        console.log(mark);
         const { subject, scoredMarks } = mark;
 
         if (!subjectsData[subject]) {
@@ -214,7 +212,6 @@ function Ranking() {
     const sortedSubjects = subjectAverages
       .slice()
       .sort((a, b) => b.averageMarks - a.averageMarks);
-    console.log(sortedSubjects);
     setBestSubject(sortedSubjects[0].subject);
     setWorstSubject(sortedSubjects[sortedSubjects.length - 1].subject);
   };
@@ -244,16 +241,7 @@ function Ranking() {
     performersAheadPercentage = 100;
   }
 
-  console.log(`Total performers: ${totalPerformers}`);
-  console.log(`Current user index: ${currentUserIndex}`);
-  console.log(`Performers ahead: ${performersAhead}`);
-  console.log(`Performers behind: ${performersBehind}`);
-  console.log(
-    `Percentage of performers ahead: ${performersAheadPercentage.toFixed(2)}%`
-  );
-  console.log(
-    `Percentage of performers behind: ${performersBehindPercentage.toFixed(2)}%`
-  );
+
 
   return (
     <>
@@ -294,7 +282,7 @@ function Ranking() {
                 >
                   <PerformerName>{performer.name}</PerformerName>
                   <PerformerImage
-                    src={`/src/assets/medal${index + 1}.jpg`}
+                    src={`assets/medal${index + 1}.jpg`}
                     alt={performer.name}
                   />
                 </div>

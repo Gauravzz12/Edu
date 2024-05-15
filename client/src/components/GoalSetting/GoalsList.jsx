@@ -93,7 +93,6 @@ function GoalsList() {
   };
   const markasCompleted = async (params, event) => {
     const value = event.target.checked;
-    console.log(value);
     if (value) {
       setCompleted(true);
       setTimeout(() => {

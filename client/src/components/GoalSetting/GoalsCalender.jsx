@@ -29,7 +29,6 @@ const GoalDisplay = ({ goals, onClose }) => {
           {goals.map((goal, index) => (
             <li key={index}>
               <span className="serial-number">{index + 1}. </span>
-              {console.log(goal)}
               {goal.goal}
               {"   "}
               <span style={{ fontWeight: 'bold', marginLeft: '10px', color: goal.completed ? 'green' : 'red' }}>

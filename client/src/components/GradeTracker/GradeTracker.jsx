@@ -1,8 +1,8 @@
 import "./GradeTracker.css";
-import UserImage from "../../assets/User.png";
-import UniImage from "../../assets/university.png";
-import degree from "../../assets/degree.png";
-import id from "../../assets/Id.png";
+import UserImage from "/assets/User.png";
+import UniImage from "/assets/university.png";
+import degree from "/assets/degree.png";
+import id from "/assets/Id.png";
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import axios from "axios";
 import Modal from "react-modal";
