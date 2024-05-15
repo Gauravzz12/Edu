@@ -154,7 +154,7 @@ const Login = ({ setLoggedIn }) => {
           Do not have an account? Sign Up
         </LoginLink>
         </Form>
-        <img src="src/assets/Logo.jpeg"></img>
+        <img src="/assets/Logo.jpeg"></img>
 
       </FormContainer>
     </Container>

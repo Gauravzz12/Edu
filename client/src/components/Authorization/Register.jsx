@@ -203,7 +203,7 @@ const Register = () => {
           <Button type="submit" value="Register" />
         <Link to="/">Already own an account? Click here</Link>
         </Form>
-        <img src="src/assets/Logo.jpeg"></img>
+        <img src="/assets/Logo.jpeg"></img>
 
       </FormContainer>
     </Container>
