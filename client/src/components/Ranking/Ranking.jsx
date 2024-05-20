@@ -166,13 +166,15 @@ function Ranking() {
           if (!userRankings[name]) {
             userRankings[name] = 0;
           }
-          userRankings[name] += scoredMarks;
+          userRankings[name] = scoredMarks;
         }
       });
     });
+    console.log(userRankings);
     const userRankingsArray = Object.entries(userRankings).map(
       ([name, totalMarks]) => ({ name, totalMarks })
     );
+    console.log(userRankingsArray);
     userRankingsArray.sort((a, b) => b.totalMarks - a.totalMarks);
     setRankings(userRankingsArray);
   };
@@ -188,21 +190,22 @@ function Ranking() {
     const subjectsData = {};
 
     x.forEach((user) => {
-      user.marks.forEach((mark) => {
-        const { subject, scoredMarks } = mark;
+      if (user.name === sessionStorage.getItem("name")) {
+        user.marks.forEach((mark) => {
+          const { subject, scoredMarks } = mark;
 
-        if (!subjectsData[subject]) {
-          subjectsData[subject] = {
-            totalMarks: 0,
-            count: 0,
-          };
-        }
+          if (!subjectsData[subject]) {
+            subjectsData[subject] = {
+              totalMarks: 0,
+              count: 0,
+            };
+          }
 
-        subjectsData[subject].totalMarks += scoredMarks;
-        subjectsData[subject].count++;
-      });
+          subjectsData[subject].totalMarks += scoredMarks;
+          subjectsData[subject].count++;
+        });
+      }
     });
-
     const subjectAverages = Object.keys(subjectsData).map((subject) => ({
       subject,
       averageMarks:
@@ -240,8 +243,6 @@ function Ranking() {
   } else if (totalPerformers === 1) {
     performersAheadPercentage = 100;
   }
-
-
 
   return (
     <>

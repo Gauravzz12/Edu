@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import Loader from "../Loader/Loader";
 
 
 const Container = styled.div`
@@ -91,9 +92,23 @@ const Link = styled(NavLink)`
   color: #007bff;
   margin-top: 10px;
 `;
+const LoaderOverlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+`;
 
 const Register = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+
   const [user, setUser] = useState({
     name: "",
     id: "",
@@ -108,10 +123,11 @@ const Register = () => {
       [e.target.name]: e.target.value,
     });
   };
+  
 
   const PostData = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     const res = await fetch(
       "https://edu-track-dusky.vercel.app/auth/register",
       {
@@ -122,19 +138,35 @@ const Register = () => {
         body: JSON.stringify(user),
       }
     );
-
+    setLoading(false);
     const data = await res.json();
-
-    if (data.error || !data) {
+    console.log(res.status);
+    console.log(data);
+     if(res.status==400){
+      window.alert("User with this email already exists")
+      setLoading(false);
+    }
+    else if(res.status==422){
+      window.alert("Please Fill all the Required Fields");
+      setLoading(false);
+      
+    }
+    else if (data.error || !data) {
       window.alert("Invalid Registration");
-    } else {
-      window.alert("Registration Successful");
+    }
+    
+    else {
       navigate("/Login");
     }
   };
 
   return (
     <Container>
+       {loading && (
+        <LoaderOverlay>
+          <Loader />
+        </LoaderOverlay>
+      )}
         <Heading>EDUTRACK+</Heading>
         <Paragraph>
           Precision for Progress, Insight for Impact. Track your academic journey with efficiency, unlock potential, and inspire a future of achievements

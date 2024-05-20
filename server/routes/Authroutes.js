@@ -11,10 +11,12 @@ router.post('/register', async (req, res) => {
     try {
       const { name, id,email, password,year } = req.body;
       if (!name ||!id|| !email  || !password||!year) {
+        
         return res.status(422).json({ error: "Please fill all the required fields" });
       }
   
       const existingUser = await User.findOne({ email });
+      console.log(existingUser);
       if (existingUser) {
         return res.status(400).json({ message: 'User with this email already exists' });
       }
@@ -30,7 +32,7 @@ router.post('/register', async (req, res) => {
       });
   
       await newUser.save();
-  
+      alert("User registered successfully");
       res.status(201).json({ message: 'User registered successfully' });
     } catch (error) {
       console.error('Error registering user:', error);

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import Loader from "../Loader/Loader";
 
 const Container = styled.div`
   display: flex;
@@ -8,7 +9,8 @@ const Container = styled.div`
   flex-direction: column;
   height: 100vh;
   width: 100%;
-   background: linear-gradient(to left, #ddf0ed, #abb0b6, #b4cfff); 
+  background: linear-gradient(to left, #ddf0ed, #abb0b6, #b4cfff);
+  position: relative;
 `;
 
 const FormContainer = styled.div`
@@ -17,13 +19,11 @@ const FormContainer = styled.div`
   border-radius: 10px;
   min-height: 300px;
   display: flex;
-  img{
+  img {
     max-width: 300px;
     object-fit: contain;
   }
-  
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.8);
-
 `;
 
 const Heading = styled.h1`
@@ -31,16 +31,16 @@ const Heading = styled.h1`
   font-weight: bold;
   margin-bottom: 20px;
   text-align: center;
-  color:#12376e;
+  color: #12376e;
 `;
 
 const Paragraph = styled.p`
   font-size: 22px;
   text-align: center;
   margin-bottom: 30px;
-  font-family:'comic sans ms';
+  font-family: 'comic sans ms';
   font-style: italic;
-  color:brown;
+  color: brown;
 `;
 
 const Form = styled.form`
@@ -86,13 +86,28 @@ const LoginLink = styled(NavLink)`
   margin-top: 10px;
 `;
 
+const LoaderOverlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+`;
+
 const Login = ({ setLoggedIn }) => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const loginUser = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     const res = await fetch('https://edu-track-dusky.vercel.app/auth/login', {
       method: 'POST',
@@ -103,11 +118,11 @@ const Login = ({ setLoggedIn }) => {
     });
 
     const data = await res.json();
-    
+    setLoading(false);
+
     if (res.status === 400 || !data) {
       window.alert('Invalid Credentials');
     } else {
-      window.alert('Login Successful');
 
       sessionStorage.setItem('name', data.name);
       sessionStorage.setItem('id', data.id);
@@ -121,10 +136,15 @@ const Login = ({ setLoggedIn }) => {
 
   return (
     <Container>
-        <Heading>EDUTRACK+</Heading>
-        <Paragraph>
-          Precision for Progress, Insight for Impact. Track your academic journey with efficiency, unlock potential, and inspire a future of achievements
-        </Paragraph>
+      {loading && (
+        <LoaderOverlay>
+          <Loader />
+        </LoaderOverlay>
+      )}
+      <Heading>EDUTRACK+</Heading>
+      <Paragraph>
+        Precision for Progress, Insight for Impact. Track your academic journey with efficiency, unlock potential, and inspire a future of achievements
+      </Paragraph>
       <FormContainer>
         <Form onSubmit={loginUser}>
           <FormGroup>
@@ -150,12 +170,11 @@ const Login = ({ setLoggedIn }) => {
             />
           </FormGroup>
           <Button type="submit" value="Log In" />
-        <LoginLink to="/Register">
-          Do not have an account? Sign Up
-        </LoginLink>
+          <LoginLink to="/Register">
+            Do not have an account? Sign Up
+          </LoginLink>
         </Form>
-        <img src="/assets/Logo.jpeg"></img>
-
+        <img src="/assets/Logo.jpeg" alt="Logo" />
       </FormContainer>
     </Container>
   );
