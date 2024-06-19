@@ -10,10 +10,6 @@ Edutrack is a comprehensive academic tracker designed to enhance the learning ex
 Edutrack incorporates a smart chatbot to assist users with queries related to academics, resources, and more.
 - ## Performance Tracker
 Keep track of your academic performance over time with detailed insights and analytics.
-- ## Peer Management
-Effortlessly manage and connect with peers for collaborative learning and group projects.
-- ## Profile Forms
-Create and update your academic profile with ease, providing relevant information for a personalized experience.
 - ## Calendar
 Stay organized with a built-in calendar feature, helping you manage assignments, exams, and important dates.
 - ## Resource Library with Google Books Integration
@@ -24,10 +20,6 @@ Experience healthy competition with live ranking features, showcasing your posit
 Set academic goals, track your progress, and stay motivated throughout your educational journey.
 - ## Grade Tracker
 Efficiently monitor and analyze your grades with a dedicated grade tracker feature.
-- ## FAQs
-Find answers to commonly asked questions to ensure a smooth user experience.
-- ## Dark and Light Themes
-Choose between dark and light themes to suit your preference and reduce eye strain during extended study sessions.
 - ## User Specific Authorization
 Ensure data security and privacy with user-specific authorization for personalized access.
 ## Screenshots
@@ -82,28 +74,11 @@ Ensure data security and privacy with user-specific authorization for personaliz
   npm start
 ```
 
-
-
-
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/) Feel free to use this app for your personal projects :)
-
-
 ## Tech Stack
-
 **Client:** React JS, TailwindCSS, BootStrap, Axios, CSS
-
 **Server:** Node, Express
-
 **Database:** MongoDB
-## Contributors
-
-- [@Kush](https://github.com/kush0904)
-- [@Shashank](https://github.com/Shashank2823)
-- [@Himanshu](https://github.com/himanshuVaishnav29)
-- [@Gaurav](https://github.com/Gauravzz12)
-- [@Anuj](https://github.com/anujgill)
-
-
 # OVER AND OUT
