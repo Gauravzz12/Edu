@@ -78,6 +78,18 @@ const Button = styled.input`
   cursor: pointer;
 `;
 
+const GuestButton = styled.button`
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  background-color: #28a745;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+`;
+
 const LoginLink = styled(NavLink)`
   display: block;
   text-align: center;
@@ -123,7 +135,6 @@ const Login = ({ setLoggedIn }) => {
     if (res.status === 400 || !data) {
       window.alert('Invalid Credentials');
     } else {
-
       sessionStorage.setItem('name', data.name);
       sessionStorage.setItem('id', data.id);
       sessionStorage.setItem('clg_id', data.clg_id);
@@ -132,6 +143,11 @@ const Login = ({ setLoggedIn }) => {
       setLoggedIn(true);
       navigate('/');
     }
+  };
+
+  const loginAsGuest = () => {
+    setEmail("gaurav1234thakurgt@gmail.com");
+    setPassword("1234");
   };
 
   return (
@@ -170,6 +186,9 @@ const Login = ({ setLoggedIn }) => {
             />
           </FormGroup>
           <Button type="submit" value="Log In" />
+          <GuestButton type="button" onClick={loginAsGuest}>
+            Log in as Guest
+          </GuestButton>
           <LoginLink to="/Register">
             Do not have an account? Sign Up
           </LoginLink>
